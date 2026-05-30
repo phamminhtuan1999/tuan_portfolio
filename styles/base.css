@@ -1,0 +1,159 @@
+/* ============================================================
+   BASE / SEMANTIC ELEMENT STYLES
+   Reusable design-system primitives. Tokens come from tokens.css.
+   ============================================================ */
+
+.ds-canvas {
+  background: var(--bg);
+  color: var(--fg1);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Massive hero headline — orange, tight, terminal underscore */
+.h-mega {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--t-mega);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  text-transform: none;
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--t-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.015em;
+  color: var(--fg1);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--t-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: -0.01em;
+  color: var(--fg1);
+}
+
+/* Section subheads are MONO + bold (per spec) */
+.h3 {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-bold);
+  font-size: var(--t-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg1);
+}
+
+.p {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-reg);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--fg1);
+}
+
+.p-muted { color: var(--fg2); }
+
+/* Overline / eyebrow / nav text */
+.overline {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--fg1);
+}
+
+.code, code, pre {
+  font-family: var(--font-data);
+  font-size: var(--t-sm);
+  letter-spacing: var(--tracking-mono);
+}
+
+/* Inline text links — underlined, ink, hover to accent */
+.link {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 120ms linear;
+}
+.link:hover { color: var(--accent); }
+
+/* Terminal cursor underscore helper (blinks) */
+.cursor::after {
+  content: "_";
+  color: var(--accent);
+  animation: ds-blink 1s steps(1) infinite;
+}
+@keyframes ds-blink { 50% { opacity: 0; } }
+
+/* ---------- Dark badge / tag ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--ink);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+}
+.badge--accent { background: var(--accent); color: var(--ink); }
+.badge--outline {
+  background: transparent;
+  color: var(--ink);
+  border: var(--border-w) solid var(--ink);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 12px 20px;
+  border: var(--border-w) solid var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 120ms linear, color 120ms linear, transform 80ms ease;
+}
+.btn:hover  { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.btn:active { transform: translateY(1px); }
+
+.btn--ghost { background: transparent; color: var(--ink); }
+.btn--ghost:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+.btn--accent { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.btn--accent:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+/* ---------- Structural grid helpers ---------- */
+.grid-line   { border: var(--border-w) solid var(--border); }
+.divider     { height: 0; border-top: var(--border-w) solid var(--border); }
+.divider--accent { border-top: var(--border-w-2) solid var(--accent); }
+
+/* Giant ghost background word */
+.ghost-word {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--hairline);
+  letter-spacing: -0.01em;
+  user-select: none;
+  pointer-events: none;
+}

@@ -1,0 +1,80 @@
+/* ============================================================
+   TERMINAL BRUTALIST — Design Tokens
+   Software Engineer Portfolio Design System
+
+   Font families resolve to the CSS variables exposed by
+   `next/font/google` in app/layout.tsx:
+     - Be Vietnam Pro (display / headlines)  -> --font-be-vietnam-pro
+     - Space Mono     (UI / body / mono)     -> --font-space-mono
+     - IBM Plex Mono  (alternate mono, data) -> --font-ibm-plex-mono
+   ============================================================ */
+
+:root {
+  /* ---------- 1. CORE PALETTE ---------- */
+  --base:        #E6E3D8;  /* Light greige — main canvas */
+  --base-2:      #DEDACE;  /* Slightly deeper greige for panels */
+  --ink:         #111111;  /* Dark charcoal — text, borders */
+  --accent:      #FC4C02;  /* Vibrant orange-red — headlines, active, marquee */
+  --surface:     #FFFFFF;  /* White — text inside dark badges, media */
+
+  /* ---------- Muted / overlay ---------- */
+  --muted:       rgba(17, 17, 17, 0.45);   /* secondary mono text */
+  --faint:       rgba(17, 17, 17, 0.10);   /* hairline tints */
+  --ghost:       rgba(17, 17, 17, 0.06);   /* giant background outline text */
+  --accent-soft: rgba(252, 76, 2, 0.12);   /* accent wash */
+
+  /* ---------- Semantic color roles ---------- */
+  --bg:          var(--base);
+  --fg1:         var(--ink);     /* primary text */
+  --fg2:         var(--muted);   /* secondary text */
+  --border:      var(--ink);     /* the structural 1px grid lines */
+  --hairline:    rgba(17,17,17,0.18);
+  --link:        var(--ink);
+  --highlight:   var(--accent);
+
+  /* ---------- 2. TYPE FAMILIES ---------- */
+  --font-display: var(--font-be-vietnam-pro), "Arial Narrow", sans-serif;
+  --font-mono:    var(--font-space-mono), "Courier New", monospace;
+  --font-data:    var(--font-ibm-plex-mono), "Space Mono", monospace;
+
+  /* ---------- Type scale (fluid where useful) ---------- */
+  --t-mega:   clamp(4rem, 11vw, 9rem);    /* hero H1 */
+  --t-h1:     clamp(2.5rem, 6vw, 5rem);
+  --t-h2:     clamp(1.75rem, 3.2vw, 2.75rem);
+  --t-h3:     1.5rem;
+  --t-lg:     1.125rem;
+  --t-body:   1rem;
+  --t-sm:     0.8125rem;   /* 13px */
+  --t-xs:     0.6875rem;   /* 11px — top bar, overlines */
+
+  --lh-tight:  0.92;
+  --lh-snug:   1.1;
+  --lh-body:   1.65;
+
+  --tracking-wide:   0.14em;   /* overlines, nav, badges */
+  --tracking-mono:   0.02em;
+  --weight-reg:  400;
+  --weight-med:  500;
+  --weight-bold: 700;
+  --weight-black: 800;
+
+  /* ---------- 3. SPACING / GRID ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --border-w:    1px;     /* structural grid hairlines */
+  --border-w-2:  2px;     /* accent dividers */
+  --frame-w:     14px;    /* thick framed-window side borders */
+  --radius:      0px;     /* BRUTALIST — sharp corners everywhere */
+  --container:   1320px;
+
+  /* Brutalist = no soft shadows. Elevation is done with borders only. */
+  --shadow-none: none;
+}
