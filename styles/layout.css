@@ -349,10 +349,11 @@ body {
   .topbar > span:first-child { display: none; }
   .topbar .contact { width: 100%; justify-content: space-between; gap: 8px; }
 
-  /* nav: brand on its own row, section links scroll horizontally */
+  /* nav: brand + theme switch share the top row, section links scroll below */
   .nav { flex-wrap: wrap; }
-  .nav .logo { width: 100%; border-right: 0; border-bottom: 1px solid var(--ink); }
-  .nav .links { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .nav .logo { flex: 1 1 auto; width: auto; border-right: 0; border-bottom: 1px solid var(--ink); }
+  .nav .spacer { display: none; }
+  .nav .links { order: 2; flex: 0 0 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .nav .links::-webkit-scrollbar { display: none; }
   .nav .navlink { flex: 0 0 auto; padding: 14px 14px; }
   .nav .navlink:last-child { border-right: 0; }

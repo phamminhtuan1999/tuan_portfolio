@@ -158,3 +158,11 @@ html.theme-anim *::after {
   .theme-switch { padding: 0 12px; }
   .ts-label { display: none; }
 }
+
+/* Mobile: switch rides the top row beside the logo (links scroll below). */
+@media (max-width: 640px) {
+  .theme-switch {
+    order: 1;
+    border-bottom: 1px solid var(--ink);
+  }
+}
