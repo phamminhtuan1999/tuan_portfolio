@@ -4,6 +4,11 @@ import { Be_Vietnam_Pro, IBM_Plex_Mono, Space_Mono } from "next/font/google";
 import "@/styles/tokens.css";
 import "@/styles/base.css";
 import "@/styles/layout.css";
+import "@/styles/theme.css";
+
+/* Runs before first paint: applies the saved theme (or OS preference) to
+   <html data-theme> so there is no flash of the wrong theme. */
+const NO_FLASH_THEME = `(function(){try{var s=localStorage.getItem("tp-theme");if(!s)s=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",s);}catch(e){}})();`;
 
 /* Self-hosted, optimized Google Fonts exposed as CSS variables consumed in tokens.css. */
 const beVietnamPro = Be_Vietnam_Pro({
@@ -61,8 +66,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${beVietnamPro.variable} ${spaceMono.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
     >
-      <body className="ds-canvas">{children}</body>
+      <body className="ds-canvas">
+        <script dangerouslySetInnerHTML={{ __html: NO_FLASH_THEME }} />
+        {children}
+      </body>
     </html>
   );
 }

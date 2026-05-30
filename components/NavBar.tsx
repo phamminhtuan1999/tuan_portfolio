@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { SECTIONS, type SectionLabel } from "@/lib/site";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
+import ThemeSwitch from "@/components/ThemeSwitch";
 
 /** Sticky navigation with scroll-spy highlighting and smooth in-page scrolling. */
 export default function NavBar() {
@@ -33,6 +34,7 @@ export default function NavBar() {
         ))}
       </div>
       <div className="spacer" />
+      <ThemeSwitch />
       <span className="status">
         <span className="dot" />
         OPEN TO WORK_

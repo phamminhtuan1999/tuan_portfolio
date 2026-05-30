@@ -14,6 +14,7 @@ conventional, maintainable codebase.
 - **`next/font/google`** — self-hosted, optimized web fonts (no external font requests at runtime)
 - **Plain CSS** with a design-token layer — no CSS framework; a hand-rolled brutalist design system
 - **`next/image`** — responsive, optimized portrait image
+- **Dark / light theme** — persistent toggle, OS-preference default, no flash of wrong theme
 
 ## Getting started
 
@@ -46,6 +47,7 @@ npm run dev      # start dev server → http://localhost:3000
 │   ├── Button.tsx          # brutalist button
 │   ├── Reveal.tsx          # reveal-on-scroll (IntersectionObserver)
 │   ├── Counter.tsx         # count-up stat
+│   ├── ThemeSwitch.tsx     # dark/light toggle (sliding "key" switch)
 │   └── sections/           # Hero · About · Work · Skills · Experience · Education · Contact
 ├── hooks/
 │   └── useScrollSpy.ts     # active-section tracking
@@ -53,9 +55,10 @@ npm run dev      # start dev server → http://localhost:3000
 │   ├── site.ts             # contact info, asset paths, nav sections
 │   └── content.tsx         # all page content (projects, skills, experience, credentials)
 ├── styles/
-│   ├── tokens.css          # design tokens (:root variables)
+│   ├── tokens.css          # design tokens (:root variables, light mode)
 │   ├── base.css            # design-system primitives (.btn, .badge, type, links…)
-│   └── layout.css          # layout + component + responsive styles
+│   ├── layout.css          # layout + component + responsive styles
+│   └── theme.css           # dark-mode token overrides + theme switch styling
 ├── public/
 │   ├── portrait-tuan.png   # hero portrait
 │   └── cv/TuanPhamSWE.pdf  # downloadable CV
@@ -99,8 +102,24 @@ CSS is layered (imported in order in `layout.tsx`):
 2. **`base.css`** — reusable primitives (buttons, badges, type helpers, links).
 3. **`layout.css`** — page structure, section layouts, and responsive breakpoints (≤1024px, ≤640px).
 
+4. **`theme.css`** — dark-mode token overrides + the theme-switch component styling.
+
 The aesthetic is intentionally **brutalist**: sharp corners, hairline borders for structure
 (no shadows), a greige canvas with a single orange accent (`--accent: #FC4C02`).
+
+## Theming (dark / light)
+
+A persistent toggle (`components/ThemeSwitch.tsx`) lives in the nav. It:
+
+- defaults to the OS preference (`prefers-color-scheme`) on first visit, then remembers the user's
+  explicit choice in `localStorage` (`tp-theme`);
+- applies the theme via `data-theme="light|dark"` on `<html>`, set **before first paint** by a tiny
+  inline script in `app/layout.tsx` (no flash of the wrong theme);
+- restyles by overriding the core palette tokens under `html[data-theme="dark"]` in `theme.css` — a
+  warm-charcoal inversion (no pure black/white), with the orange accent nudged brighter.
+
+Adding new accent-filled elements? Give their text `var(--surface)` in dark mode (see the
+"accent-fill fixups" in `theme.css`), since `--ink` is light in dark mode.
 
 ## Server vs. client components
 

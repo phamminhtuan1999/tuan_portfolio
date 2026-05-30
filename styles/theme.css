@@ -1,0 +1,160 @@
+/* ============================================================
+   THEME — Dark / Light mode
+   Linked AFTER tokens/base/layout so its overrides win.
+
+   Design: dark mode is a WARM-CHARCOAL INVERSION of the light
+   greige system, not a generic black theme. The Terminal
+   Brutalist language (1px grid, square corners, mono type,
+   orange accent, "_" cursor) is preserved in both modes.
+   ============================================================ */
+
+/* ---------- Dark token overrides ----------
+   Selector is `html[data-theme="dark"]` (NOT bare [data-theme])
+   so it out-specifies the :root light tokens regardless of source
+   order. Only the CORE palette is overridden — the semantic roles
+   (--bg/--fg1/--border…) derive from these via var() and update
+   automatically. */
+html[data-theme="dark"] {
+  --base:        #17150F;  /* warm near-black canvas (never pure #000) */
+  --base-2:      #211E16;  /* slightly lifted panels */
+  --ink:         #E6E3D8;  /* greige becomes the "ink": text + grid lines */
+  --accent:      #FF5A1F;  /* orange nudged brighter for dark luminance */
+  --surface:     #17150F;  /* text/icon colour that sits ON light/accent fills */
+
+  --muted:       rgba(230, 227, 216, 0.50);
+  --faint:       rgba(230, 227, 216, 0.10);
+  --ghost:       rgba(230, 227, 216, 0.055);
+  --hairline:    rgba(230, 227, 216, 0.20);
+  --accent-soft: rgba(255, 90, 31, 0.15);
+}
+
+/* ---------- Accent-fill contrast fixups ----------
+   In dark mode --ink is LIGHT, so any element that puts text on the
+   ACCENT background would lose contrast. Force the dark --surface for
+   those. (In light mode the default --ink already reads fine.) */
+html[data-theme="dark"] .nav .navlink.active,
+html[data-theme="dark"] .badge--accent,
+html[data-theme="dark"] .btn--accent,
+html[data-theme="dark"] .tag.primary,
+html[data-theme="dark"] .btn:hover,
+html[data-theme="dark"] .wc-btn:hover {
+  color: var(--surface);
+}
+
+/* ---------- Marquee: the one intentional inversion ----------
+   Light: dark band + orange text.  Dark: greige band (--ink) + DARK
+   text, echoing the light-mode frame borders. By design. */
+html[data-theme="dark"] .marquee .track span {
+  color: var(--surface);
+}
+
+/* ---------- Terminal surfaces pinned dark in both modes ----------
+   The boot splash is a terminal screen; it should stay dark-on-greige
+   even in light mode, so keep it fixed when the canvas inverts. */
+html[data-theme="dark"] .boot {
+  background: #17150F;
+  color: #E6E3D8;
+}
+
+/* ============================================================
+   THEME SWITCH — brutalist sliding "key"
+   Mode-agnostic component styling lives here.
+   ============================================================ */
+.theme-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  /* reset the UA <button> border (2px outset) — keep only the cell divider,
+     matching the other nav cells (.navlink / .status) */
+  border: 0;
+  border-left: 1px solid var(--ink);
+  background: none;
+  font-family: var(--font-mono);
+  color: var(--ink);
+  cursor: pointer;
+}
+.theme-switch:hover { background: var(--accent-soft); }
+
+.ts-label {
+  font-size: var(--t-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* reserve width for the longer label ("LIGHT_") so the cell doesn't
+     reflow when toggling to the shorter "DARK_" */
+  min-width: 4.7em;
+  text-align: left;
+}
+.ts-label .u { color: var(--accent); }
+
+.ts-track {
+  position: relative;
+  width: 56px;
+  height: 26px;
+  flex: 0 0 auto;
+  border: 1px solid var(--ink);
+  background: var(--base);
+}
+
+/* line glyphs — faint by default, the ACTIVE side is highlighted below */
+.ts-glyph {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  z-index: 2;
+  color: var(--muted);
+}
+.ts-glyph.sun { left: 5px; }
+.ts-glyph.moon { right: 5px; }
+.ts-glyph svg { display: block; width: 100%; height: 100%; }
+
+/* the orange knob slides under the active glyph */
+.ts-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 20px;
+  z-index: 1;
+  background: var(--accent);
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.theme-switch.on .ts-knob { transform: translateX(28px); }
+
+/* Active-side glyph rides on top of the knob in a dark colour so the
+   current mode reads at a glance. --ink is dark in light mode; in dark
+   mode it flips light, so override to the dark --surface there. */
+.theme-switch:not(.on) .ts-glyph.sun { color: var(--ink); }
+.theme-switch.on .ts-glyph.moon { color: var(--ink); }
+html[data-theme="dark"] .theme-switch.on .ts-glyph.moon { color: var(--surface); }
+
+/* ---------- Smooth cross-fade on toggle ----------
+   A short-lived class added to <html> during the switch so colours
+   ease across instead of snapping — without permanently overriding the
+   components' own hover transitions. */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    fill 0.3s ease,
+    stroke 0.3s ease,
+    transform 0.3s ease,
+    -webkit-text-stroke-color 0.3s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts-knob { transition: none; }
+}
+
+/* On narrow viewports the status pill is hidden; keep the switch usable. */
+@media (max-width: 1024px) {
+  .theme-switch { padding: 0 12px; }
+  .ts-label { display: none; }
+}
